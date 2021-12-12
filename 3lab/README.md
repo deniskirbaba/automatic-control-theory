@@ -1,1 +1,1 @@
-## Canonical forms of representation dynamic systems
+## Transient processes in the system. System stability
