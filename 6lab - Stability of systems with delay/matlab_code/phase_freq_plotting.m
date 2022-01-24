@@ -13,6 +13,8 @@ phase_freq = atan2(im, real);
 
 phase = phase_freq_with_delay(w, delay);
 
+value = atan2(im_freq_trans_func_t_1(8.868), real_freq_trans_func_t_1(8.868));
+
 plot(w,phase);
 xlabel("w");
 ylabel("Phase");

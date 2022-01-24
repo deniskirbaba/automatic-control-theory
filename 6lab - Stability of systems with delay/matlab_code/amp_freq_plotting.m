@@ -13,7 +13,7 @@ legend("A(w)");
 grid on;
 %ylim([0 30]);
 
-value = amplitude_k_1(0.636701)
+value = amplitude_k_1(2.17328   )
 
 function a = amplitude_k_1(w)
     a = (((w .^ 6) + 23 .* (w .^ 4) + 71 .* (w .^ 2) + 49) .^ 0.5) ./ ((w .^ 4) + 22 .* (w .^ 2) + 49);
