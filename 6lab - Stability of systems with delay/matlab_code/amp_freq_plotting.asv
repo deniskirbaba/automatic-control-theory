@@ -1,0 +1,26 @@
+w_start = 0;
+w_stop = 0;
+w_step = 0.0003;
+
+w = linspace(w_start, w_stop, (w_stop - w_start) ./ w_step);
+
+amp_fr = amplitude_k_1(w);
+
+plot(w,amp_fr);
+xlabel("w");
+ylabel("A");
+legend("A(w)");
+grid on;
+%ylim([0 30]);
+
+function a = amplitude_k_1(w)
+    a = (((w .^ 6) + 23 ./ (w .^ 4) + 71 ./ (w .^ 2) + 49) .^ 0.5) ./ ((w .^ 4) + 22 .* (w .^ 2) + 49);
+end
+
+function a = amplitude_frequency_deceleration_differential_link(w)
+    a = ((9 .* (w .^ 2) + 225) .^ 0.5) ./ (0.04 .* (w .^ 2) + 1);
+end
+
+function a = amplitude_frequency_conservative_link(w)
+    a = abs(15 ./ (- 0.04 .* (w .^ 2) + 1));
+end
