@@ -1,18 +1,16 @@
-%#ok<*MINV> 
-%#ok<*VUNUS> 
-%#ok<*NOPTS>
-
 % 4 task
 
 % plant parameters
 A = [5 -7 -5 1; -7 5 -1 5; -5 -1 5 7; 1 5 7 5];
 B = [5; 7; 1; 9];
 C = [0 0 2 2; 1 1 -1 1];
-x0 = [-3; 17; 2; -8];
+
+% initial conditions
+x0 = [2; 1; 0; -1];
 x0_obs = [5; -1; -8; 12];
 
 % desired decay rates
-alpha_reg = 1;
+alpha_reg = 3;
 alpha_obs = 1.5;
 
 % solving LMI
@@ -35,14 +33,13 @@ Q > 0.00001*eye(4);
 A'*Q + Q*A + 2*alpha_obs*Q + C'*Y_obs' + Y_obs*C <= 0;
 cvx_end
 
-% finding controller matrix
+% finding controller matrix and control constraint
 K = Y_reg*inv(P);
 mu=sqrt(mumu);
 
 % finding observer matrix
 L = inv(Q)*Y_obs;
 
--L;
-A+B*K+L*C;
-eig(A+B*K);
-eig(A+L*C);
+eig(A + B*K)
+A + L*C + B*K
+K

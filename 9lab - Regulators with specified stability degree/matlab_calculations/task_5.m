@@ -6,33 +6,33 @@
 
 % plant parameters
 A = [0 1; 0 0];
-B = [0; 1];
+C = [1 0];
+
+% initial conditions
 x0 = [1; 0];
-x0_der = [0; 0];
-
-% control constraint
-mu = 15;
-
-% stiffness constraint
-% mu_s = 30;
+x0_obs = [0; -1];
+e0 = x0-x0_obs;
 
 % desired decay rate
-alpha = 2;
+alpha = 5;
 
 % solving LMI
 cvx_begin sdp
-variable P(2,2)
-variable Y(1,2)
+variable Q(2,2)
+variable Y(2,1)
 variable mumu
 minimize mumu
-P >= 0.0001*eye(2);
-P*A' + A*P + 2*alpha*P + Y'*B' + B*Y <= 0;
-[P x0; x0' 1] >= 0;
-[P Y'; Y mu^2] >= 0;
-[P x0_der; x0_der' 1] >= 0;
-[P Y'; Y mumu] >= 0;
+Q > 0.00001*eye(2);
+A'*Q + Q*A + 2*alpha*Q + C'*Y' + Y*C <= 0;
+[Q e0; e0' 1] > 0;
+[Q Y; Y' mumu] > 0;
 cvx_end
 
-% finding controller matrix
-K = Y*inv(P)
-mu_s = sqrt(mumu)
+% finding observer matrix
+L = inv(Q)*Y;
+mu = sqrt(mumu);
+
+-L
+A + L*C
+eig(A+L*C)
+
